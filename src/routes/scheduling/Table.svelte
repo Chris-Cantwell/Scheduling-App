@@ -1,8 +1,9 @@
 <script>
-   import { each } from "svelte/internal";
+   import { writable } from 'svelte/store';
    
    // Handle props, set important vars for component 
    export let week;
+   export let availability;
    let days = week.days;
 
    const start_time = week.earliest_time.hour * 60 + week.earliest_time.minute;
@@ -33,7 +34,6 @@
             count++;
         }
     }
-
 
     // Interaction and Cell Updates
     $: selecting = false;
@@ -68,92 +68,86 @@
     }
 
     // Store and Save Availability
-    $: availabilityList = {
-        Monday: [],
-        Tuesday: [],
-        Wednesday: [], 
-        Thursday: [], 
-        Friday: [],
-        Saturday: [], 
-        Sunday: []
-    }
+    const availabilityList = writable({
+        monday: [],
+        tuesday: [],
+        wednesday: [], 
+        thursday: [], 
+        friday: [],
+        saturday: [], 
+        sunday: []
+    })
 
-    function calculateAvailability(){
-        console.log("Calculating")
-        
-        availabilityList = {
-            Monday: [],
-            Tuesday: [],
-            Wednesday: [], 
-            Thursday: [], 
-            Friday: [],
-            Saturday: [], 
-            Sunday: []
-        }
-        
+    availabilityList.subscribe(data => {
+        availability = data;
+    });
+
+    function calculateAvailability() {
+        let availList = {
+            monday: [],
+            tuesday: [],
+            wednesday: [], 
+            thursday: [], 
+            friday: [],
+            saturday: [], 
+            sunday: []
+        };
+            
         // Start at day = 1 and count = num_intervals to skip header row 
         let count = 0;
         
-        let start_hr = 0; 
-        let start_min = 0;
-        let end_hr = 0; 
-        let end_min = 0;
+        let startHr = 0; 
+        let startMin = 0;
+        let endHr = 0; 
+        let endMin = 0;
 
         let currentDay = "";
         let writing_block = false;
 
-        
         for(let day = 1; day < days.length; day++){
             count = day;
-            console.log(days[day]);
 
             for(let block = 0; block <= num_intervals; block++){
-                console.log(count);
-                console.log(gridList[count].available);
-
                 if(!(gridList[count].available) && !writing_block){
                     // Part of unbroken unavailability block -- Do nothing
 
                 } else if(gridList[count].available && writing_block){
                     // Part of unbroken availability block -- Update potential end
-                    end_hr = gridList[count].hour;
-                    end_min = gridList[count].minute + 30;
-                    if (end_min == 60) {
-                        end_hr += 1;
-                        end_min = 0;
+                    endHr = gridList[count].hour;
+                    endMin = gridList[count].minute + 30;
+                    if (endMin == 60) {
+                        endHr += 1;
+                        endMin = 0;
                     }
                     currentDay = gridList[count].day;
-                    console.log("Unbroken Availability")
 
                 } else if (gridList[count].available && !writing_block) {
                     // Start new block
                     writing_block = true; 
                     currentDay = gridList[count].day;
                     
-                    start_hr = gridList[count].hour;
-                    start_min = gridList[count].minute;
-                    end_hr = start_hr;
-                    end_min = start_min + 30;
-                    if (end_min == 60) {
-                        end_hr += 1;
-                        end_min = 0;
+                    startHr = gridList[count].hour;
+                    startMin = gridList[count].minute;
+                    endHr = startHr;
+                    endMin = startMin + 30;
+                    if (endMin == 60) {
+                        endHr += 1;
+                        endMin = 0;
                     }
-                    console.log("Start New Block")
 
                 } else {
                     // End current block and reset
-                    console.log("End Current Block")
-                    
-                    let newBlock = {start_hr: start_hr, start_min: start_min, 
-                                    end_hr: end_hr, end_min: end_min}
+                    let newBlock = {startHr: startHr, startMin: startMin, 
+                                    endHr: endHr, endMin: endMin}
 
-                    availabilityList[currentDay].push(newBlock);
+                    availList[currentDay].push(newBlock);
                     writing_block = false; 
                 }
-                
                 count += 8;
             }
         }
+
+        availabilityList.set(availList);
     }
 
 </script>
@@ -184,11 +178,11 @@
 
 <p>
 <b>Your Availability: </b>
-{#each Object.keys(availabilityList) as label} 
-    <p>{label}:</p>
-    {#each availabilityList[label] as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
+{#each Object.keys($availabilityList) as label} 
+    <p class="label">{label}:</p>
+    {#each $availabilityList[label] as entry} 
+    {entry.startHr}:{#if entry.startMin != 0}{entry.startMin}{:else}00{/if} - 
+    {entry.endHr}:{#if entry.endMin != 0}{entry.endMin}{:else}00{/if}, 
     {/each}
 {/each}
 </p>
@@ -206,6 +200,7 @@
         padding: 8px;
         font-size: 20px;
         text-align: center;
+        text-transform: capitalize;
     }
     
     .grid-item-sidebar{
@@ -237,5 +232,10 @@
         -webkit-user-select: none; /* Safari */
         -ms-user-select: none; /* IE 10 and IE 11 */
         user-select: none; /* Standard syntax */
+    }
+
+    .label {
+        font-family: 'Nunito';
+        text-transform: capitalize;
     }
 </style>
