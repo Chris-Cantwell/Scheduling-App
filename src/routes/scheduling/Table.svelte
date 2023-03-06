@@ -71,6 +71,7 @@
 
 </script>
 
+
 <p>{draggedCells} </p>
 <p>
 {#each draggedCells as cell}
@@ -78,13 +79,16 @@
 {/each}
 </p>
 
-<div class="grid-container" on:mousemove={handleMouseMove}>
+<div class="grid-container prevent-select" on:mousemove={handleMouseMove} 
+    ondragstart="return false;" ondrop="return false;" draggable="false">
+
     {#each days as day}
-        <div class="grid-item-header">{day}</div>
+        <div class="grid-item-header" draggable="false">{day}</div>
     {/each}
     {#each gridList as item}
         {#if item.day == ""}
-            <div class="grid-item-sidebar" id={item.id}> {item.hour}:{item.minute} </div>
+            <div class="grid-item-sidebar" id={item.id} draggable="false"> 
+                {item.hour}:{#if item.minute != 0}{item.minute}{:else}00{/if} </div>
         {:else if item.available}
             <div class="grid-item-active" id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = false}
@@ -136,5 +140,12 @@
         padding: 5px;
         font-size: 10px;
         text-align: center;
+    }
+
+    /* https://www.w3schools.com/howto/howto_css_disable_text_selection.asp */
+    .prevent-select {
+        -webkit-user-select: none; /* Safari */
+        -ms-user-select: none; /* IE 10 and IE 11 */
+        user-select: none; /* Standard syntax */
     }
 </style>
