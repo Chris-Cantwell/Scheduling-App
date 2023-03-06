@@ -26,15 +26,9 @@
 
 <center>
     <h1>Please log in to continue:</h1>
-
-<<<<<<< HEAD
-    {#if form?.success}
-        <p>Successfully logged in! Welcome back, {form?.name}</p>
-        <a href="/scheduling">Continue</a>
-=======
     {#if $user && $user.id}
         <p>Successfully logged in! Welcome back, {$user.username}</p>
->>>>>>> b6ba77c1de145fc3f3c83121300e68877bc38d90
+        <a href="/scheduling">Continue</a>
     {/if}
 
 
