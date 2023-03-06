@@ -63,24 +63,61 @@
 </script>
 
 <center>
-    <h2> Please Indicate Your In-Person Availability </h2>
-    <h4> Click and Drag to Highlight Available Blocks</h4>
+    <h2 class="title"> Please Indicate Your In-Person Availability </h2>
+    <h4 class="body"> Click & Drag to Highlight Available Blocks</h4>
+    <form on:submit|preventDefault="{handleSubmit}">
+        <button>Save</button>
+    </form>
 </center>
-
 <Table week={week} bind:availability={availability}/> 
 
-<center>
-<form on:submit|preventDefault="{handleSubmit}">
-    <button>Submit</button>
-</form>
-</center>
-
 <style>
-    .grid-item-test {
-        background-color: rgba(170, 240, 170, 0.8);
-        border: 1px solid rgba(0, 0, 0, 0.8);
-        padding: 20px;
+    .title {
+        margin-top: 20px;
+        max-width: 700px;
+        font-family: 'Overpass';
+        font-style: normal;
+        font-weight: 800;
         font-size: 30px;
+        letter-spacing: 0.05em;
+        color: #444B59;
+        background-color: #FBFCFF;
+    }
+    .body {
+        font-family: 'Nunito';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        letter-spacing: 0.1em;
+        margin-bottom: 15px;
+        color: #444B59;
+    }
+    button {
+        display: inline-block;
+        width: 100px;
+        height: 30px;
+        background: #E25661;
+        box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.094);        
+        border-radius: 10px;
+        border-color: transparent;
+        margin-bottom: 15px;
+        font-family: 'Nunito';
+        font-style: normal;
+        font-weight: 800;
+        font-size: 12px;
         text-align: center;
+        letter-spacing: 0.1em;
+        color: #FFFFFF;
+    }
+    button:disabled,
+    button[disabled] {
+        opacity: 0.5;
+    }
+    button:hover:enabled {
+        transform: scale(1.02) perspective(1px);
+        transition-duration: 0.4s;
+        -webkit-transition-duration: 0.4s;
+        -ms-transition-duration: 0.4s;
+        -moz-transition-duration: 0.4s;
     }
 </style>

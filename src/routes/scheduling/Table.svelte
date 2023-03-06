@@ -144,7 +144,7 @@
     }
 
 </script>
-
+<div class="main">
 <div class="grid-container prevent-select" on:mousemove={handleMouseMove} 
     ondragstart="return false;" ondrop="return false;" draggable="false">
 
@@ -169,52 +169,61 @@
     {/each}
 </div>
 
-<p>
-<b>Your Availability: </b>
+
+<p class="labelTitle">Your Availability: </p>
+<p class="body">
 {#each Object.keys($availabilityList).filter(d => days.includes(d)) as label} 
-    <p class="label">{label}:</p>
-    {#each $availabilityList[label] as entry} 
-    {entry.startHr}:{#if entry.startMin != 0}{entry.startMin}{:else}00{/if} - 
-    {entry.endHr}:{#if entry.endMin != 0}{entry.endMin}{:else}00{/if}, 
-    {/each}
+    <p class="label it">{label}:</p>
+    <p class="body">
+        {#each $availabilityList[label] as entry, i} 
+        {#if i}, {/if}{entry.startHr}:{#if entry.startMin != 0}{entry.startMin}{:else}00{/if} - 
+            {entry.endHr}:{#if entry.endMin != 0}{entry.endMin}{:else}00{/if}
+        {/each}
+    </p>
 {/each}
 </p>
+</div>
 
 <style>
     .grid-container {
         display: grid;
         grid-template-columns: auto auto auto auto auto auto auto auto;
         column-gap: 0px;
+        margin-bottom: 30px;
     }
 
     .grid-item-header {
-        background-color: rgba(242, 242, 242, 0.8);
-        border: 1px solid rgba(0, 0, 0, 0.8);
-        padding: 8px;
-        font-size: 20px;
+        background-color: #E25661;
+        border: 1px solid #444B59;
+        padding: 5px;
+        font-size: 14px;
         text-align: center;
         text-transform: capitalize;
+        color: #FFFFFF;
+        font-family: 'Nunito';
     }
     
     .grid-item-sidebar{
-        background-color: rgba(242, 242, 242, 0.8);
-        border: 1px solid rgba(0, 0, 0, 0.8);
+        background-color: #f0f0f0b9;
+        border: 1px solid #444B59;
         padding: 3px;
-        font-size: 10px;
+        font-size: 12px;
         text-align: center;
+        font-family: 'Nunito';
+        color: #444B59;
     }
 
     .grid-item-active {
-        background-color: rgba(170, 240, 170, 0.8);
-        border: 1px solid rgba(0, 0, 0, 0.8);
+        background-color: #E3778B;
+        border: 1px solid #444b5941;
         padding: 5px;
         font-size: 10px;
         text-align: center;
     }
 
     .grid-item-inactive {
-        background-color: rgba(167, 167, 167, 0.8);
-        border: 1px solid rgba(0, 0, 0, 0.8);
+        background-color: #f0f0f0b9;
+        border: 1px solid #444B59;
         padding: 5px;
         font-size: 10px;
         text-align: center;
@@ -230,5 +239,25 @@
     .label {
         font-family: 'Nunito';
         text-transform: capitalize;
+        color: #444B59;
+    }
+    .main {
+        margin-right: 40px;
+        margin-left: 40px;
+    }
+    .labelTitle { 
+        font-family: 'Nunito';
+        text-decoration: underline;
+        margin-bottom: 10px;
+        color: #444B59;
+        font-size: 20px;
+    }
+    .body {
+        font-family: 'Nunito';
+        color: #444B59;
+        font-size: 14px;
+    }
+    .label.it {
+        font-style: italic;
     }
 </style>
