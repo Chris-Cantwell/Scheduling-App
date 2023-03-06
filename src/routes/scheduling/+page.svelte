@@ -7,25 +7,30 @@
         console.log(event);
     }
 
+    let mousepos = { x: 0, y: 0 }
+
     function handleMouseMove(event) {
-        console.log("Mouse Moving Through Div!")
+        console.log("Mouse Moving Through Div!");
+        mousepos.x = event.clientX;
+        mousepos.y = event.clientY;
     }
 
     let week = {
         days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        //TODO: JS Date Objects
-        earliest_time: "08:00", // Time code, 24h hh:mm
-        latest_time: "24:00", // Time code, 24h hh:mm
+        earliest_time: {hour: 8, minute: 0}, // Time code, 24h hh:mm
+        latest_time: {hour: 18, minute: 0}, // Time code, 24h hh:mm
         interval_min: 15 // Interval in Minutes
     }
 
+    console.log()
 </script>
 
 <center>
     <h1> Please enter your availability! </h1>
-    <Table week=week/> 
-    <div class="grid-item-test" on:mousemove={handleMouseMove}>Test</div>
+    <div class="grid-item-test" on:mousedown={handleMouseMove}>Test -- Mouse is at {mousepos.x}, {mousepos.y}</div>
 </center>
+
+<Table week={week}/> 
 
 <style>
     .grid-item-test {
