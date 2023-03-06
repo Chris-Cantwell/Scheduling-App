@@ -26,9 +26,9 @@
 
 <center>
     <h1>Please log in to continue:</h1>
-
     {#if $user && $user.id}
         <p>Successfully logged in! Welcome back, {$user.username}</p>
+        <a href="/scheduling">Continue</a>
     {/if}
 
 
