@@ -1,8 +1,15 @@
 <script>
+    import { onMount } from 'svelte';
+    import { mutationStore } from '@urql/svelte';
     import Table from './Table.svelte';
     import { user, client } from "../stores"
-    import { mutationStore } from '@urql/svelte';
     import { TIME_SPENT, ADD_AVAIL } from "./graphql";
+    import { goto } from '$app/navigation';
+
+    onMount(() => {
+        if (!$user || !$user.id) {
+        goto('/');
+    }});
 
     let result;
     let timeResult;
@@ -20,7 +27,6 @@
         });
     };
 
-    console.log(availability, $user?.id)
     const captureAvailability = async () => {
         result = mutationStore({
             client,
