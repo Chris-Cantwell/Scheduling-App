@@ -47,7 +47,7 @@
         });
 
         result.subscribe(d => {
-            if (d && d.data) {
+            if (d && (d.data || d.error)) {
                 user.set(null)
             }
         })
