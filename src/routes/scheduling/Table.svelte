@@ -172,7 +172,7 @@
 </div>
 
 
-<p class="labelTitle">Your Availability: (With Offset {timeOffset})</p>
+<p class="labelTitle">Your Availability:</p>
 <p class="body">
 {#each Object.keys($availabilityList).filter(d => days.includes(d)) as label} 
     <p class="label it">{label}:</p>

@@ -72,10 +72,10 @@
 
 <center>
     <h2 class="title"> Please Indicate Your In-Person Availability </h2>
-    <h4 class="body"> Click & Drag to Highlight Available Blocks (Eastern Standard Time)</h4>
+    <h4 class="body"> Click & Drag to Highlight Available Blocks (Hosted in EST)</h4>
     
 
-    <label for="offset">Select Time Zone Offset</label>
+    <label class="timezone" for="offset">Select Timezone</label>
     <select name="offset" id="offset" bind:value={timeOffset}>
         <option value=-5>Hawaii -5</option>
         <option value=-4>Alaska -4</option>
@@ -121,6 +121,14 @@
         margin-bottom: 15px;
         color: #444B59;
     }
+    .timezone {
+        font-family: 'Nunito';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        letter-spacing: 0.1em;
+        color: #444B59;
+    }
     button {
         display: inline-block;
         width: 100px;
@@ -130,6 +138,7 @@
         border-radius: 10px;
         border-color: transparent;
         margin-bottom: 15px;
+        margin-top: 15px;
         font-family: 'Nunito';
         font-style: normal;
         font-weight: 800;
