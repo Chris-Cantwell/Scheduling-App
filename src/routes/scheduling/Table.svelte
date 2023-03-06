@@ -19,17 +19,18 @@
 
     for(let block = 0; block <= num_intervals; block++){
         for(let day = 0; day < days.length; day++){
+            const dayAvailability = availability[days[day]];
+            const hour = Math.floor((start_time + (block * week.interval_minutes)) / 60);
+            const minute = (start_time + (block * week.interval_minutes)) % 60;
+            const t = `${hour}:${minute}`
             gridList.push({
-                available: false,
+                available: dayAvailability && dayAvailability.find(d => `${d.startHr}:${d.startMin}` <= t &&  t < `${d.endHr}:${d.endMin}`),
                 id: count,
-
                 col: day, 
-                day: days[day], 
-                
+                day: days[day],  
                 row: block,
-
-                hour: Math.floor((start_time + (block * week.interval_minutes)) / 60),
-                minute: (start_time + (block * week.interval_minutes)) % 60
+                hour,
+                minute, 
             });
             count++;
         }
@@ -68,15 +69,7 @@
     }
 
     // Store and Save Availability
-    const availabilityList = writable({
-        monday: [],
-        tuesday: [],
-        wednesday: [], 
-        thursday: [], 
-        friday: [],
-        saturday: [], 
-        sunday: []
-    })
+    const availabilityList = writable(availability)
 
     availabilityList.subscribe(data => {
         availability = data;
@@ -178,7 +171,7 @@
 
 <p>
 <b>Your Availability: </b>
-{#each Object.keys($availabilityList) as label} 
+{#each Object.keys($availabilityList).filter(d => days.includes(d)) as label} 
     <p class="label">{label}:</p>
     {#each $availabilityList[label] as entry} 
     {entry.startHr}:{#if entry.startMin != 0}{entry.startMin}{:else}00{/if} - 

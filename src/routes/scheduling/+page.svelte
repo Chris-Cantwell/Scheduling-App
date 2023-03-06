@@ -14,7 +14,7 @@
     let result;
     let timeResult;
     let startTime = new Date();
-    let availability = {};
+    let availability = $user?.availability || {};
 
     const captureTimeSpent = async () => {
         timeResult = mutationStore({

@@ -155,11 +155,11 @@
         <form on:submit|preventDefault="{handleSubmit}">
             <label class="body">
                 Name
-                <input name="name" bind:value="{username}" type="text">
+                <input name="name" bind:value="{username}" type="text" autocomplete="off">
             </label>
             <label class="body">
                 Password
-                <input name="password" bind:value="{password}" type="password">
+                <input name="password" bind:value="{password}" type="password" autocomplete="off">
             </label>
             <button disabled='{!username || !password}'>Continue</button>
         </form>
