@@ -11,6 +11,12 @@
         goto('/');
     }});
 
+    user.subscribe(d => {
+        if (!d) {
+            goto("/")
+        }
+    })
+
     let result;
     let timeResult;
     let startTime = new Date();
@@ -43,7 +49,7 @@
         result.subscribe(d => {
             if (d && d.data) {
                 if (d.data) {
-                    console.log('success');
+                    user.set(null)
                 }
             }
         })
@@ -68,7 +74,7 @@
     <h2 class="title"> Please Indicate Your In-Person Availability </h2>
     <h4 class="body"> Click & Drag to Highlight Available Blocks (Eastern Standard Time)</h4>
     <form on:submit|preventDefault="{handleSubmit}">
-        <button>Save</button>
+        <button>Submit</button>
     </form>
 </center>
 <Table week={week} bind:availability={availability}/> 
