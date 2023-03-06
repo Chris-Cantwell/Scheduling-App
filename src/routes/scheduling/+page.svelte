@@ -1,5 +1,27 @@
 <script>
     import Table from './Table.svelte';
+    import { user, client } from "../stores"
+    import { mutationStore } from '@urql/svelte';
+    import { TIME_SPENT } from "./graphql";
+
+    let timeResult;
+    let startTime = new Date();
+
+    const captureTimeSpent = async () => {
+        timeResult = mutationStore({
+            client,
+            query: TIME_SPENT,
+            variables: { 
+                userId: $user?.id, 
+                timeSpentSeconds: Math.abs(startTime.getTime() - (new Date()).getTime())/1000,
+            },
+        });
+    };
+
+    const handleSubmit = async () => {
+        captureTimeSpent() 
+        console.log($timeResult, $user?.id, Math.abs(startTime.getTime() - (new Date()).getTime())/1000)
+    }
 
     let week = {
         // Add a blank precursor day to hold time block labels
@@ -16,6 +38,9 @@
 </center>
 
 <Table week={week}/> 
+<form on:submit|preventDefault="{handleSubmit}">
+    <button>Submit</button>
+</form>
 
 <style>
     .grid-item-test {
