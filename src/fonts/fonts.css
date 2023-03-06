@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/src/fonts/Nunito/static/Nunito-Regular.ttf');
+}
+@font-face {
+    font-family: 'Overpass';
+    font-style: normal;
+    font-weight: 800;
+    src: url('/src/fonts/Overpass/static/Overpass-ExtraBold.ttf');
+}
