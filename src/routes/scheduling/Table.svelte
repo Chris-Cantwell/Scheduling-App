@@ -195,7 +195,7 @@
         {:else}
             <div class="grid-item-inactive" id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = true}
-                on:mouseup={handleMouseUp}> {item.id}
+                on:mouseup={handleMouseUp}> 
             </div>
         {/if}
     {/each}

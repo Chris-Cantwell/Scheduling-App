@@ -36,9 +36,12 @@
 </center>
 
 <Table week={week}/> 
+
+<center>
 <form on:submit|preventDefault="{handleSubmit}">
     <button>Submit</button>
 </form>
+</center>
 
 <style>
     .grid-item-test {
