@@ -66,16 +66,39 @@
         interval_minutes: 30 // Interval in Minutes
     }
 
+    let timeOffset = 0;
+
 </script>
 
 <center>
     <h2 class="title"> Please Indicate Your In-Person Availability </h2>
     <h4 class="body"> Click & Drag to Highlight Available Blocks (Eastern Standard Time)</h4>
+    
+
+    <label for="offset">Select Time Zone Offset</label>
+    <select name="offset" id="offset" bind:value={timeOffset}>
+        <option value=-5>Hawaii -5</option>
+        <option value=-4>Alaska -4</option>
+        <option value=-3>Pacific Time -3</option>
+        <option value=-2>Mountain Time -2</option>
+        <option value=-1>Central Time -1</option>
+        <option value=0 selected>Eastern Standard Time +0</option>
+        <option value=1>Atlantic Time +1</option>
+        <option value=2>Greenland; Buenos Aires +2</option>
+        <option value=4>Cape Verde +4</option>
+        <option value=5>GMT/UTC +5</option>
+        <option value=6>Central European Time +6</option>
+        <option value=7>Eastern European Time +7</option>
+        <option value=8>Arabia Standard Time +8</option>
+        <option value=13>China Standard Time +13</option>
+    </select>
+    
+    
     <form on:submit|preventDefault="{handleSubmit}">
         <button>Submit</button>
     </form>
 </center>
-<Table week={week} bind:availability={availability}/> 
+<Table week={week} bind:availability={availability} bind:timeOffset={timeOffset}/> 
 
 <style>
     .title {

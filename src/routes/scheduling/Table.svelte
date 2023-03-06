@@ -1,8 +1,10 @@
 <script>
+    import { to_number } from 'svelte/internal';
    import { writable } from 'svelte/store';
    
    // Handle props, set important vars for component 
    export let week;
+   export let timeOffset;
    export let availability;
    let days = week.days;
 
@@ -154,7 +156,7 @@
     {#each gridList as item}
         {#if item.day == ""}
             <div class="grid-item-sidebar" id={item.id} draggable="false"> 
-                {item.hour}:{#if item.minute != 0}{item.minute}{:else}00{/if} </div>
+                {(item.hour + to_number(timeOffset)) % 24}:{#if item.minute != 0}{item.minute}{:else}00{/if} </div>
         {:else if item.available}
             <div class="grid-item-active" id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = false}
@@ -170,14 +172,15 @@
 </div>
 
 
-<p class="labelTitle">Your Availability: </p>
+<p class="labelTitle">Your Availability: (With Offset {timeOffset})</p>
 <p class="body">
 {#each Object.keys($availabilityList).filter(d => days.includes(d)) as label} 
     <p class="label it">{label}:</p>
     <p class="body">
         {#each $availabilityList[label] as entry, i} 
-        {#if i}, {/if}{entry.startHr}:{#if entry.startMin != 0}{entry.startMin}{:else}00{/if} - 
-            {entry.endHr}:{#if entry.endMin != 0}{entry.endMin}{:else}00{/if}
+            {#if i}, {/if}
+            {(entry.startHr + to_number(timeOffset)) % 24}:{#if entry.startMin != 0}{entry.startMin}{:else}00{/if} - 
+            {(entry.endHr + to_number(timeOffset)) % 24}:{#if entry.endMin != 0}{entry.endMin}{:else}00{/if}
         {/each}
     </p>
 {/each}
