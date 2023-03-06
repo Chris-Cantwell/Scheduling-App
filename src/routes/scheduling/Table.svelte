@@ -17,8 +17,10 @@
         });
    }
 
-   function logClick(event) {
-        console.log("Mouse Movin'")
+   function logClick(id) {
+        console.log(id)
+        gridList[id].available = true;
+        gridList = gridList;
    }
 
 </script>
@@ -29,11 +31,13 @@
     {/each}
     {#each gridList as item}
         {#if item.available}
-            <div class="grid-item-active" id={item.value} on:mouseenter={logClick}>
+            <div class="grid-item-active" id={item.value} 
+             on:mousedown={() => logClick(item.value)} on:focus={() => logClick(item.value)}>
                 {item.value} 
             </div>
         {:else}
-            <div class="grid-item-inactive" id={item.value} on:mouseleave={logClick}>
+            <div class="grid-item-inactive" id={item.value} 
+             on:mousedown={() => logClick(item.value)} on:focus={() => logClick(item.value)}>
                 {item.value} 
             </div>
         {/if}

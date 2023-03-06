@@ -22,7 +22,6 @@
         interval_min: 15 // Interval in Minutes
     }
 
-    console.log()
 </script>
 
 <center>
