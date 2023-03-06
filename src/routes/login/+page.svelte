@@ -43,7 +43,7 @@
 <style>
     body {
         background-color: #FBFCFF;
-        margin-left: 30px;
+        margin-left: 40px;
         min-height: 100vh;
     }
     .main {
@@ -54,6 +54,7 @@
     }
     .firstDiv {
         min-width: 550px;
+        max-width: 550px;
     }
     button {
         display: inline-block;

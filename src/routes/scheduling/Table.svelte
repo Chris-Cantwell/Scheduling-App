@@ -117,7 +117,11 @@
                 } else if(gridList[count].available && writing_block){
                     // Part of unbroken availability block -- Update potential end
                     end_hr = gridList[count].hour;
-                    end_min = gridList[count].minute;
+                    end_min = gridList[count].minute + 30;
+                    if (end_min == 60) {
+                        end_hr += 1;
+                        end_min = 0;
+                    }
                     currentDay = gridList[count].day;
                     console.log("Unbroken Availability")
 
@@ -128,6 +132,12 @@
                     
                     start_hr = gridList[count].hour;
                     start_min = gridList[count].minute;
+                    end_hr = start_hr;
+                    end_min = start_min + 30;
+                    if (end_min == 60) {
+                        end_hr += 1;
+                        end_min = 0;
+                    }
                     console.log("Start New Block")
 
                 } else {
@@ -136,41 +146,12 @@
                     
                     let newBlock = {start_hr: start_hr, start_min: start_min, 
                                     end_hr: end_hr, end_min: end_min}
-                    console.log(newBlock);
-                    
-                    if(currentDay == "Monday"){
-                        console.log(availabilityList.Monday);
-                        availabilityList.Monday.push(newBlock);
-                        
-                    } else if(currentDay == "Tuesday"){
-                        console.log(availabilityList.Tuesday);
-                        availabilityList.Tuesday.push(newBlock);
 
-                    } else if(currentDay == "Wednesday"){
-                        console.log(availabilityList.Wednesday);
-                        availabilityList.Wednesday.push(newBlock);
-
-                    } else if(currentDay == "Thursday"){
-                        console.log(availabilityList.Thursday);
-                        availabilityList.Thursday.push(newBlock);
-
-                    } else if(currentDay == "Friday"){
-                        console.log(availabilityList.Friday);
-                        availabilityList.Friday.push(newBlock);
-
-                    } else if(currentDay == "Saturday"){
-                        console.log(availabilityList.Saturday);
-                        availabilityList.Saturday.push(newBlock);
-
-                    }else if(currentDay == "Sunday"){
-                        console.log(availabilityList.Sunday);
-                        availabilityList.Sunday.push(newBlock);
-                    }
-                   
+                    availabilityList[currentDay].push(newBlock);
                     writing_block = false; 
                 }
                 
-                count+= 8;
+                count += 8;
             }
         }
     }
@@ -203,39 +184,12 @@
 
 <p>
 <b>Your Availability: </b>
-Monday:
-{#each availabilityList.Monday as entry} 
+{#each Object.keys(availabilityList) as label} 
+    <p>{label}:</p>
+    {#each availabilityList[label] as entry} 
     {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
     {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
-{/each}
-Tuesday: 
-{#each availabilityList.Tuesday as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
-{/each}
-Wednesday: 
-{#each availabilityList.Wednesday as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
-{/each}
-Thursday: 
-{#each availabilityList.Thursday as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
-{/each}
-Friday: 
-{#each availabilityList.Friday as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
-{/each}
-Saturday: 
-{#each availabilityList.Saturday as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
-{/each}
-Sunday: {#each availabilityList.Sunday as entry} 
-    {entry.start_hr}:{#if entry.start_min != 0}{entry.start_min}{:else}00{/if} - 
-    {entry.end_hr}:{#if entry.end_min != 0}{entry.end_min}{:else}00{/if}, 
+    {/each}
 {/each}
 </p>
 
