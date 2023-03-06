@@ -16,6 +16,17 @@ export const LOGIN = gql`
                 saturday
                 sunday
             }
+            zoomAvailability {
+                id
+                timezone
+                monday
+                tuesday
+                wednesday
+                thursday
+                friday
+                saturday
+                sunday
+            }
         }
     }
 `;
