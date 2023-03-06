@@ -18,10 +18,7 @@
         });
     };
 
-    const handleSubmit = async () => {
-        captureTimeSpent() 
-        console.log($timeResult, $user?.id, Math.abs(startTime.getTime() - (new Date()).getTime())/1000)
-    }
+    const handleSubmit = async () => captureTimeSpent() 
 
     let week = {
         // Add a blank precursor day to hold time block labels
