@@ -23,6 +23,8 @@
             variables: { 
                 userId: $user?.id, 
                 timeSpentSeconds: Math.abs(startTime.getTime() - (new Date()).getTime())/1000,
+                startTime, 
+                endTime: new Date(),
             },
         });
     };

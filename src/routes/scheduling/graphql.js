@@ -1,8 +1,11 @@
 import { gql } from '@urql/svelte';
 
 export const TIME_SPENT = gql`
-    mutation addElapsedTime($userId: ID!, $timeSpentSeconds: Float!) {
-        addElapsedTime(userId: $userId, timeSpentSeconds: $timeSpentSeconds)
+    mutation addElapsedTime($userId: ID!, $timeSpentSeconds: Float!, $startTime: String, $endTime: String) {
+        addElapsedTime(userId: $userId, 
+                       timeSpentSeconds: $timeSpentSeconds, 
+                       startTime: $startTime, 
+                       endTime: $endTime)
     }
 `;
 
