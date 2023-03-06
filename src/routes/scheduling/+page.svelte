@@ -48,9 +48,7 @@
 
         result.subscribe(d => {
             if (d && d.data) {
-                if (d.data) {
-                    user.set(null)
-                }
+                user.set(null)
             }
         })
     };
