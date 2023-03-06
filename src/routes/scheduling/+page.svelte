@@ -64,7 +64,7 @@
 
 <center>
     <h2 class="title"> Please Indicate Your In-Person Availability </h2>
-    <h4 class="body"> Click & Drag to Highlight Available Blocks</h4>
+    <h4 class="body"> Click & Drag to Highlight Available Blocks (Eastern Standard Time)</h4>
     <form on:submit|preventDefault="{handleSubmit}">
         <button>Save</button>
     </form>
