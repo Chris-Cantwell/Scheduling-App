@@ -1,27 +1,45 @@
 <script>
-    /** @type {import('./$types').PageData} */
-    export let data;
-    
-    /** @type {import('./$types').ActionData} */
-    export let form;
+    import { LOGIN } from "./graphql";
+    import { user, client } from "../stores"
+    import { mutationStore } from '@urql/svelte';
+
+    let username = "";
+    let password = "";
+    let result;
+
+    const login = async () => {
+        result = mutationStore({
+            client,
+            query: LOGIN,
+            variables: { username, password },
+        });
+
+        result.subscribe(d => {
+            if (d && d.data) {
+                user.set(d.data.login)
+            }
+        })
+    };
+
+    const handleSubmit = async () => login()
 </script>
 
 <center>
     <h1>Please log in to continue:</h1>
 
-    {#if form?.success}
-        <p>Successfully logged in! Welcome back, {form?.name}</p>
+    {#if $user && $user.id}
+        <p>Successfully logged in! Welcome back, {$user.username}</p>
     {/if}
 
 
-    <form method="POST" action="?/login">
+    <form on:submit|preventDefault="{handleSubmit}">
         <label>
             Name:
-            <input name="name" type="text">
+            <input name="name" bind:value="{username}" type="text">
         </label>
         <label>
             Password:
-            <input name="password" type="password">
+            <input name="password" bind:value="{password}" type="password">
         </label>
         <button>Submit</button>
     </form>
