@@ -1,6 +1,7 @@
 <script>
    import { each } from "svelte/internal";
-
+   
+   // Handle props, set important vars for component 
    export let week;
    let days = week.days;
 
@@ -8,12 +9,12 @@
    const end_time = week.latest_time.hour * 60 + week.latest_time.minute;
 
    let num_intervals = (end_time - start_time) / week.interval_minutes;
-
-   // import { createEventDispatcher } from "svelte"; 
    
    let gridList = []
     
-    let count = 0;
+   let count = 0;
+
+    // Initialize Blocks
 
     for(let block = 0; block < num_intervals; block++){
         for(let day = 0; day < days.length; day++){
@@ -32,32 +33,11 @@
             count++;
         }
     }
-   let draggedCells = []
 
-   function trackDrag(id){
-        draggedCells = [draggedCells, gridList[id]]; 
-   }
 
-   function toggleAvailability(id) {
-
-        if(!toggleMode){
-            gridList[id].available = false;
-        } else {
-            gridList[id].available = true;
-        }
-
-        gridList = gridList; // This refresh is important to get the reactivity to work
-   }
-
+    // Interaction and Cell Updates
     $: selecting = false;
     $: toggleMode = true;
-
-    function handleMouseMove(event){
-        if(selecting){
-            console.log(event.srcElement.id);
-            toggleAvailability(event.srcElement.id);
-        }
-    }
 
     function handleMouseDown(event){
         selecting = true;
@@ -68,16 +48,26 @@
         selecting = false;
         toggleAvailability(event.srcElement.id);
     }
+    
+    function toggleAvailability(id) {
+
+        if(!toggleMode){
+            gridList[id].available = false;
+        } else {
+            gridList[id].available = true;
+        }
+
+        gridList = gridList; // This refresh is important to get the reactivity to work
+    }
+
+    function handleMouseMove(event){
+        if(selecting){
+            console.log(event.srcElement.id);
+            toggleAvailability(event.srcElement.id);
+        }
+    }
 
 </script>
-
-
-<p>{draggedCells} </p>
-<p>
-{#each draggedCells as cell}
-    ({cell.value}, {cell.available}) <br>
-{/each}
-</p>
 
 <div class="grid-container prevent-select" on:mousemove={handleMouseMove} 
     ondragstart="return false;" ondrop="return false;" draggable="false">
