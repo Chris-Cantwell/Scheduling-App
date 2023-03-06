@@ -1,19 +1,16 @@
 <script>
-    import { onMount } from 'svelte';
     import { mutationStore } from '@urql/svelte';
     import Table from './Table.svelte';
     import { user, client } from "../stores"
     import { TIME_SPENT, ADD_AVAIL } from "./graphql";
     import { goto } from '$app/navigation';
-
-    onMount(() => {
-        if (!$user || !$user.id) {
-        goto('/');
-    }});
+    import { browser } from '$app/environment';
 
     user.subscribe(d => {
-        if (!d) {
-            goto("/")
+        if (!d || !d.id) {
+            if (browser) {
+                goto("/")
+            }    
         }
     })
 
