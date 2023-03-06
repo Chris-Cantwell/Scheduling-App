@@ -34,7 +34,8 @@
 </script>
 
 <center>
-    <h1> Please enter your availability! </h1>
+    <h2> Please Indicate Your In-Person Availability </h2>
+    <h4> Click and Drag to Highlight Available Blocks</h4>
 </center>
 
 <Table week={week}/> 
