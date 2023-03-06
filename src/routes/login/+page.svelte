@@ -11,6 +11,7 @@
 
     {#if form?.success}
         <p>Successfully logged in! Welcome back, {form?.name}</p>
+        <a href="/scheduling">Continue</a>
     {/if}
 
 
