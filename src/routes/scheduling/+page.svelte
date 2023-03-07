@@ -64,16 +64,15 @@
     }
 
     let timeOffset = 0;
-
+    let selectValue;
 </script>
 
 <center>
-    <h2 class="title"> Please Indicate Your In-Person Availability </h2>
-    <h4 class="body"> Click & Drag to Highlight Available Blocks (Hosted in EST)</h4>
+    <h2 class="title">Please Highlight Your Availability</h2>
+    <h4 class="body">Event hosted in EST</h4>
     
-
-    <label class="timezone" for="offset">Select Timezone</label>
-    <select name="offset" id="offset" bind:value={timeOffset}>
+    <label class="timezone" for="offset">Timezone</label>
+    <select name="offset" id="offset" bind:value={selectValue} on:change="{() => timeOffset = selectValue}">
         <option value=-5>Hawaii -5</option>
         <option value=-4>Alaska -4</option>
         <option value=-3>Pacific Time -3</option>
@@ -98,6 +97,16 @@
 <Table week={week} bind:availability={availability} bind:timeOffset={timeOffset}/> 
 
 <style>
+
+    select {
+        border: 1px solid #E25661;
+        font-family: 'Nunito';
+        font-size: 14px;
+        letter-spacing: 0.1em;
+        box-shadow: 2px 2px 4px 1px rgba(210, 151, 151, 0.236); 
+        border-radius: 5px;
+        padding-left: 3px;
+    }
     .title {
         margin-top: 20px;
         max-width: 700px;

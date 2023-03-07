@@ -153,17 +153,18 @@
     {#each days as day}
         <div class="grid-item-header" draggable="false">{day}</div>
     {/each}
-    {#each gridList as item}
+    {#each gridList as item, i}
         {#if item.day == ""}
             <div class="grid-item-sidebar" id={item.id} draggable="false"> 
-                {(item.hour + to_number(timeOffset)) % 24}:{#if item.minute != 0}{item.minute}{:else}00{/if} </div>
+                {(item.hour + to_number(timeOffset)) % 24}:{#if item.minute != 0}{item.minute}{:else}00{/if} 
+            </div>
         {:else if item.available}
-            <div class="grid-item-active" id={item.id} 
+            <div class="grid-item grid-item-active" id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = false}
                 on:mouseup={handleMouseUp}>
             </div>
         {:else}
-            <div class="grid-item-inactive" id={item.id} 
+            <div class="grid-item grid-item-inactive" id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = true}
                 on:mouseup={handleMouseUp}> 
             </div>
@@ -172,7 +173,7 @@
 </div>
 
 
-<p class="labelTitle">Your Availability:</p>
+<p class="labelTitle">Availability Summary:</p>
 <p class="body">
 {#each Object.keys($availabilityList).filter(d => days.includes(d)) as label} 
     <p class="label it">{label}:</p>
@@ -193,11 +194,14 @@
         grid-template-columns: auto auto auto auto auto auto auto auto;
         column-gap: 0px;
         margin-bottom: 30px;
+        box-shadow: 3px 4px 10px 5px rgba(127, 105, 105, 0.164);
+        border-top-right-radius: 20px;
+        border-top-left-radius: 20px;
     }
 
     .grid-item-header {
         background-color: #E25661;
-        border: 1px solid #444B59;
+        border-bottom: 0.5px solid #e66973;
         padding: 5px;
         font-size: 14px;
         text-align: center;
@@ -205,10 +209,18 @@
         color: #FFFFFF;
         font-family: 'Nunito';
     }
+
+    .grid-item-header:first-child {
+        border-top-left-radius: 20px;
+    }
+
+    .grid-item-header:nth-child(8) {
+        border-top-right-radius: 20px;
+    }
     
-    .grid-item-sidebar{
+    .grid-item-sidebar {
         background-color: #f0f0f0b9;
-        border: 1px solid #444B59;
+        border: 0.5px solid #e66973;
         padding: 3px;
         font-size: 12px;
         text-align: center;
@@ -216,20 +228,20 @@
         color: #444B59;
     }
 
-    .grid-item-active {
-        background-color: #E3778B;
-        border: 1px solid #444b5941;
+    .grid-item {
         padding: 5px;
         font-size: 10px;
         text-align: center;
     }
 
-    .grid-item-inactive {
+    .grid-item.grid-item-active {
+        background-color: #E3778B;
+        border: 0.5px solid #e66973;
+    }
+
+    .grid-item.grid-item-inactive {
         background-color: #f0f0f0b9;
-        border: 1px solid #444B59;
-        padding: 5px;
-        font-size: 10px;
-        text-align: center;
+        border: 0.5px solid #e66973;
     }
 
     /* https://www.w3schools.com/howto/howto_css_disable_text_selection.asp */
@@ -245,8 +257,14 @@
         color: #444B59;
     }
     .main {
-        margin-right: 40px;
-        margin-left: 40px;
+        margin-right: 15vw;
+        margin-left: 15vw;
+    }
+    @media (max-width: 1000px) {
+        .main {
+            margin-left: 5vw;
+            margin-right: 5vw;
+        }
     }
     .labelTitle { 
         font-family: 'Nunito';
