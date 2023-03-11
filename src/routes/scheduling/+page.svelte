@@ -1,10 +1,11 @@
 <script>
     import { mutationStore } from '@urql/svelte';
     import Table from './Table.svelte';
-    import { user, client } from "../stores"
+    import { user, client } from '../stores';
     import { TIME_SPENT, ADD_AVAIL } from "./graphql";
     import { goto } from '$app/navigation';
     import { browser } from '$app/environment';
+    import { TIMEZONES } from './constants.js';
 
     user.subscribe(d => {
         if (!d || !d.id) {
@@ -19,6 +20,7 @@
     let startTime = new Date();
     let availability = $user?.availability || {};
 
+    // For user testing: timing each user
     const captureTimeSpent = async () => {
         timeResult = mutationStore({
             client,
@@ -39,20 +41,19 @@
             variables: { 
                 userId: $user?.id, 
                 input: availability,
-                zoomInput: availability, // PLACEHOLDER FOR VIRTUAL
             },
         });
 
         result.subscribe(d => {
             if (d && (d.data || d.error)) {
-                user.set(null)
+                user.set(null);
             }
         })
     };
 
     const handleSubmit = async () => {
-        captureTimeSpent() 
-        captureAvailability()
+        captureTimeSpent();
+        captureAvailability();
     }
 
     let week = {
@@ -65,39 +66,43 @@
 
     let timeOffset = 0;
     let selectValue;
+    let modality;
 </script>
 
 <center>
     <h2 class="title">Please Highlight Your Availability</h2>
     <h4 class="body">Event hosted in EST</h4>
-    
-    <label class="timezone" for="offset">Timezone</label>
-    <select name="offset" id="offset" bind:value={selectValue} on:change="{() => timeOffset = selectValue}">
-        <option value=-5>Hawaii -5</option>
-        <option value=-4>Alaska -4</option>
-        <option value=-3>Pacific Time -3</option>
-        <option value=-2>Mountain Time -2</option>
-        <option value=-1>Central Time -1</option>
-        <option value=0 selected>Eastern Standard Time +0</option>
-        <option value=1>Atlantic Time +1</option>
-        <option value=2>Greenland; Buenos Aires +2</option>
-        <option value=4>Cape Verde +4</option>
-        <option value=5>GMT/UTC +5</option>
-        <option value=6>Central European Time +6</option>
-        <option value=7>Eastern European Time +7</option>
-        <option value=8>Arabia Standard Time +8</option>
-        <option value=13>China Standard Time +13</option>
-    </select>
-    
-    
+</center>
+<div class="aboveTable">
+    <div class="selectors">
+        <div>
+            <label class="selectLabel" for="offset">Time Zone</label>
+            <select name="offset" id="offset" bind:value={selectValue} on:change="{() => timeOffset = selectValue}">
+                {#each TIMEZONES as zone} 
+                <option value={zone.value} selected={zone.selected}>{zone.display}</option>
+                {/each}
+            </select>
+        </div>
+        <div>
+            <label class="selectLabel" for="modality">Modality</label>
+            <select name="modality" id="modality" bind:value={modality}>
+                <option value={false} selected>In person</option>
+                <option value={true}>Virtual only</option>
+            </select>
+        </div>
+    </div>
     <form on:submit|preventDefault="{handleSubmit}">
         <button>Submit</button>
     </form>
-</center>
-<Table week={week} bind:availability={availability} bind:timeOffset={timeOffset}/> 
+</div>
+<Table 
+    week={week} 
+    bind:availability={availability} 
+    bind:timeOffset={timeOffset}
+    bind:modality={modality}
+/> 
 
 <style>
-
     select {
         border: 1px solid #E25661;
         font-family: 'Nunito';
@@ -106,9 +111,29 @@
         box-shadow: 2px 2px 4px 1px rgba(210, 151, 151, 0.236); 
         border-radius: 5px;
         padding-left: 3px;
+        margin-bottom: 5px;
+    }
+    .selectors {
+        display: flex;
+        flex-direction: column;
+    }
+    .aboveTable {
+        margin-right: 15vw;
+        margin-left: 15vw;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 10px;
+    }
+    @media (max-width: 1000px) {
+        .aboveTable {
+            margin-left: 5vw;
+            margin-right: 5vw;
+        }
     }
     .title {
-        margin-top: 20px;
+        margin-top: 40px;
         max-width: 700px;
         font-family: 'Overpass';
         font-style: normal;
@@ -124,16 +149,17 @@
         font-weight: 400;
         font-size: 20px;
         letter-spacing: 0.1em;
-        margin-bottom: 15px;
+        margin-bottom: 35px;
         color: #444B59;
     }
-    .timezone {
+    .selectLabel {
         font-family: 'Nunito';
         font-style: normal;
         font-weight: 400;
-        font-size: 16px;
+        font-size: 14px;
         letter-spacing: 0.1em;
         color: #444B59;
+        min-width: 80px;
     }
     button {
         display: inline-block;
@@ -143,8 +169,6 @@
         box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.094);        
         border-radius: 10px;
         border-color: transparent;
-        margin-bottom: 15px;
-        margin-top: 15px;
         font-family: 'Nunito';
         font-style: normal;
         font-weight: 800;
