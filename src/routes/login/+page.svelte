@@ -116,7 +116,7 @@
         -moz-transition-duration: 0.4s;
     }
     .title {
-        margin-top: 70px;
+        margin-top: 120px;
         max-width: 550px;
         min-width: 550px;
         font-family: 'Overpass';
