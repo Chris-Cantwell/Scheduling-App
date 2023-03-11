@@ -10,19 +10,21 @@
     let result;
     let openAlert = false;
 
+    // Redirect if user signed in
     user.subscribe(d => {
         if (d && d.id) {
             goto("/scheduling")
         }
     })
 
+    // Login mutation
     const login = async () => {
         result = mutationStore({
             client,
             query: LOGIN,
             variables: { username, password },
         });
-
+        // Check if successful login
         result.subscribe(d => {
             if (d) {
                 username = "";
@@ -39,6 +41,35 @@
 
     const handleSubmit = async () => login()
 </script>
+
+<Alert color="danger" dismissible fade isOpen={openAlert} toggle={() => (openAlert = false)}>
+    <h4 class="alert-heading text-capitalize">Incorrect password</h4>
+    That name is already in use. Try again.
+</Alert>
+<body>
+<p class="title">WELCOME to Ashleigh and Chris’s Event!</p>
+<div class="main">
+    <div class="firstDiv">
+        <p class="body">
+            Sign in to indicate your availability.
+            <br />
+            New to the event? Create your password.
+        </p>
+        <form on:submit|preventDefault="{handleSubmit}">
+            <label class="body">
+                Name
+                <input name="name" bind:value="{username}" type="text" autocomplete="off">
+            </label>
+            <label class="body">
+                Password
+                <input name="password" bind:value="{password}" type="password" autocomplete="off">
+            </label>
+            <button disabled='{!username || !password}'>Continue</button>
+        </form>
+    </div>
+    <img class="calendar" src='/src/images/calendarImg.jpg' alt="Calendar">
+</div>
+</body>
 
 <style>
     body {
@@ -137,33 +168,3 @@
         font-family: 'Nunito';
     }
 </style>
-
-<Alert color="danger" dismissible fade isOpen={openAlert} toggle={() => (openAlert = false)}>
-    <h4 class="alert-heading text-capitalize">Incorrect password</h4>
-    That name is already in use. Try again.
-</Alert>
-
-<body>
-<p class="title">WELCOME to Ashleigh and Chris’s Event!</p>
-<div class="main">
-    <div class="firstDiv">
-        <p class="body">
-            Sign in to indicate your availability.
-            <br />
-            New to the event? Create your password.
-        </p>
-        <form on:submit|preventDefault="{handleSubmit}">
-            <label class="body">
-                Name
-                <input name="name" bind:value="{username}" type="text" autocomplete="off">
-            </label>
-            <label class="body">
-                Password
-                <input name="password" bind:value="{password}" type="password" autocomplete="off">
-            </label>
-            <button disabled='{!username || !password}'>Continue</button>
-        </form>
-    </div>
-    <img class="calendar" src='/src/images/calendarImg.jpg' alt="Calendar">
-</div>
-</body>

@@ -34,6 +34,7 @@
         });
     };
 
+    // Save availability to DB
     const captureAvailability = async () => {
         result = mutationStore({
             client,

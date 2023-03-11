@@ -172,7 +172,7 @@
             />
         </p>
         <p class="body">
-            Virtual:
+            Virtual only:
             <SummaryList 
                 availLst={$availabilityList[label].filter(d => d.virtual)} 
                 timeOffset={timeOffset}
@@ -193,7 +193,6 @@
         border-top-right-radius: 20px;
         border-top-left-radius: 20px;
     }
-
     .grid-item-header {
         background-color: #E25661;
         border-bottom: 0.5px solid #e66973;
@@ -204,15 +203,12 @@
         color: #FFFFFF;
         font-family: 'Nunito';
     }
-
     .grid-item-header:first-child {
         border-top-left-radius: 20px;
     }
-
     .grid-item-header:nth-child(8) {
         border-top-right-radius: 20px;
-    }
-    
+    } 
     .grid-item-sidebar {
         background-color: #f0f0f0b9;
         border: 0.5px solid #e66973;
@@ -222,14 +218,12 @@
         font-family: 'Nunito';
         color: #444B59;
     }
-
     .grid-item {
         padding: 5px;
         font-size: 10px;
         text-align: center;
         border: 0.5px solid #e66973;
     }
-
     .grid-item.grid-item-active {
         background-color: #77e3b8;
         border: 0.5px solid #a7f5de6a;
@@ -242,7 +236,6 @@
     .grid-item.grid-item-inactive {
         background-color: #f0f0f0b9;
     }
-
     /* https://www.w3schools.com/howto/howto_css_disable_text_selection.asp */
     .prevent-select {
         -webkit-user-select: none; /* Safari */

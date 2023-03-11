@@ -15,6 +15,7 @@ export const TIMEZONES = [
     { value: 13, display: 'China Standard Time' },
 ]
 
+// Return true if time is within interval
 export const compareTimes = (hr, min, sHr, sMin, eHr, eMin) => {
     const start = hr == sHr ? sMin <= min : sHr < hr;
     const end = hr == eHr ? min < eMin : hr < eHr;
