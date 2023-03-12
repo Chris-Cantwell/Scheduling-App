@@ -75,7 +75,7 @@
     <h4 class="body"> Click & Drag to Highlight Available Blocks (Eastern Standard Time)</h4>
     
 
-    <label for="offset">Select Time Zone Offset</label>
+    <label for="offset">Select Time Zone</label>
     <select name="offset" id="offset" bind:value={timeOffset}>
         <option value=-5>Hawaii -5</option>
         <option value=-4>Alaska -4</option>
