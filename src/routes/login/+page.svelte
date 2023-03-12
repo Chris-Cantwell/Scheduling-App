@@ -17,7 +17,7 @@
         }
     })
 
-    // Login mutation
+    // # Authentication: Login mutation
     const login = async () => {
         result = mutationStore({
             client,
@@ -55,6 +55,7 @@
             <br />
             New to the event? Create your password.
         </p>
+        <!-- # Authentication inputs -->
         <form on:submit|preventDefault="{handleSubmit}">
             <label class="body">
                 Name

@@ -75,6 +75,7 @@
         availability = data;
     });
 
+    // # Selection: Calculating what has been "selected"
     function calculateAvailability() {
         let availList = {
             monday: [],
@@ -143,7 +144,7 @@
     {#each days as day}
         <div class="grid-item-header" draggable="false">{day}</div>
     {/each}
-    <!-- # Each "item" is a time block -->
+    <!-- # Each "item" is a time block; # Selection -->
     {#each gridList as item}
         {#if item.day == ""}
             <div class="grid-item-sidebar" id={item.id} draggable="false"> 
