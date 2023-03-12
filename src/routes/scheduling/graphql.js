@@ -10,7 +10,7 @@ export const TIME_SPENT = gql`
 `;
 
 export const ADD_AVAIL = gql`
-    mutation updateAvailability($userId: ID!, $input: AvailabilityInput, $zoomInput: AvailabilityInput) {
-        updateAvailability(userId: $userId, input: $input, zoomInput: $zoomInput)
+    mutation updateAvailability($userId: ID!, $input: AvailabilityInput) {
+        updateAvailability(userId: $userId, input: $input)
     }
 `;
