@@ -47,6 +47,9 @@
             },
         });
 
+        // CONCEPT: Authentication
+        // ACTION: logOut()
+        // Logout user after their availability has been captured
         result.subscribe(d => {
             if (d && (d.data || d.error)) {
                 user.set(null);
@@ -59,7 +62,7 @@
         captureAvailability();
     }
 
-    // # Time Blocks
+    // Time Blocks
     let week = {
         // Add a blank precursor day to hold time block labels
         days: ["", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
@@ -81,6 +84,10 @@
     <div class="selectors">
         <div>
             <label class="selectLabel" for="offset">Time Zone</label>
+            <!-- CONCEPT: Timezone -->
+            <!-- ACTION: affix(u: User, t: Timezone) -->
+            <!-- Associate selected timezone with the current user to display times -->
+            <!-- relative to the timezone offset -->
             <select name="offset" id="offset" bind:value={selectValue} on:change="{() => timeOffset = selectValue}">
                 {#each TIMEZONES as zone} 
                 <option value={zone.value} selected={zone.selected}>{zone.display}</option>

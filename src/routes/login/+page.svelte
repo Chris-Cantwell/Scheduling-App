@@ -17,7 +17,10 @@
         }
     })
 
-    // # Authentication: Login mutation
+    // CONCEPT: Authentication
+    // ACTION: create(u: User) or logIn(u: User) if u exists in database
+    // Utilizes defined Login mutation that creates or logs in a user 
+    // based on input username + password
     const login = async () => {
         result = mutationStore({
             client,
@@ -55,7 +58,8 @@
             <br />
             New to the event? Create your password.
         </p>
-        <!-- # Authentication inputs -->
+        <!-- CONCEPT: Authentication -->
+        <!-- ACTION: create(u: User) or logIn(u: User) if u exists in database -->
         <form on:submit|preventDefault="{handleSubmit}">
             <label class="body">
                 Name

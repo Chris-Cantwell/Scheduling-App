@@ -18,8 +18,7 @@
     let gridList = []
     let count = 0;
 
-    // # Time Block
-    // Initialize Blocks
+    // Initialize Blocks of time
     for (let block = 0; block <= num_intervals; block++) {
         for (let day = 0; day < days.length; day++) {
             const dayAvailability = availability[days[day]];
@@ -55,9 +54,13 @@
         calculateAvailability();
     }
     
-    // # Time Blocks -- Preferences > Binary Availability 
+    // CONCEPT: Time Block
+    // ACTION: Toggle between free(i: Interval) and book(i: Interval)
     function toggleAvailability(id) {
         gridList[id].available = !!toggleMode;
+        // CONCEPT: Modality Preference
+        // ACTION: set(t: Time Block, m: Modality) or clear(t: Time Block)
+        //         based on value of ``modality``
         gridList[id].virtual = !!modality;
         gridList = gridList;
     }
@@ -75,7 +78,7 @@
         availability = data;
     });
 
-    // # Selection: Calculating what has been "selected"
+    // Calculating what has been "selected" based on user Time Blocks
     function calculateAvailability() {
         let availList = {
             monday: [],
@@ -144,17 +147,23 @@
     {#each days as day}
         <div class="grid-item-header" draggable="false">{day}</div>
     {/each}
-    <!-- # Each "item" is a time block; # Selection -->
+    <!-- CONCEPT: Time Block -->
     {#each gridList as item}
         {#if item.day == ""}
             <div class="grid-item-sidebar" id={item.id} draggable="false"> 
                 {(item.hr + to_number(timeOffset)) % 24}:{#if item.min != 0}{item.min}{:else}00{/if} 
             </div>
+        <!-- CONCEPTS: Time Block + Modality Preference -->
+        <!-- STATES: booked (time block); modality (modality preference)  -->
+        <!-- Display booked time blocks and their associated modality -->
         {:else if item.available}
             <div class={`grid-item grid-item-active ${item.virtual ? 'virtual' : ''}`} id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = false}
                 on:mouseup={handleMouseUp}>
             </div>
+         <!-- CONCEPT: Time Block -->
+         <!-- STATES: free (time block) -->
+         <!-- Display free time blocks -->
         {:else}
             <div class="grid-item grid-item-inactive" id={item.id} 
                 on:mousedown={handleMouseDown} on:mousedown={()=>toggleMode = true}
